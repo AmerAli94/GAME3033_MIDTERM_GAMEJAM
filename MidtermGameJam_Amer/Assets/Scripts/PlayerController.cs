@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float thrust = 5.0f;
@@ -8,7 +9,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float playerBoundaries = 5.0f;
     [SerializeField] private float cameraDistance = 5.0f;
     private Vector2 lastMousePos;
-
+    private void Start()
+    {
+        gameObject.GetComponent<Rigidbody>();
+    }
     // Update is called once per frame
     void Update()
     {
@@ -33,6 +37,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (GameManager.singleton.isRunning)
+        {
+            rb.MovePosition(transform.position + Vector3.forward * 5 * Time.fixedDeltaTime);
+        }
+    }
     private void LateUpdate()
     {
         Vector3 pos = transform.position;
@@ -45,15 +56,20 @@ public class PlayerController : MonoBehaviour
         {
             pos.x = playerBoundaries;
         }
+        if (transform.position.z < Camera.main.transform.position.z - cameraDistance)
+
+        {
+            pos.z = Camera.main.transform.position.z + cameraDistance;
+        }
         transform.position = pos;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (GameManager.sinleton.isEnded)
+        if (GameManager.singleton.isEnded)
             return;
 
         if (collision.gameObject.tag == "Obstacle")
-            GameManager.sinleton.EndGame(false);
+            GameManager.singleton.EndGame(false);
     }
 }
