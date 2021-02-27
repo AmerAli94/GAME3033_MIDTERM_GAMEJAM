@@ -5,10 +5,17 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager singleton;
-    public bool isRunning { get; private set; }
-    public bool isEnded { get; private set; }
+    public bool IsRunning { get; private set; }
+    public bool IsEnded { get; private set; }
 
     [SerializeField] private float slowMotionFactor = 0.1f;
+    [SerializeField] private Transform StartlineTransform;
+    [SerializeField] private Transform FinishlineTransform;
+    [SerializeField] private PlayerController ball;
+
+    public float TotalDistance { get; private set; }
+    public float DistanceRemaining { get; private set; }
+ 
 
     private void Awake()
     {
@@ -27,13 +34,13 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        isRunning = true;
+        IsRunning = true;
         Debug.Log("Game Running");
     }
 
     public void EndGame(bool win)
     {
-        isEnded = true;
+        IsEnded = true;
         Debug.Log("Game Over");
 
         if(!win)
@@ -44,7 +51,10 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Invoke("RestartGame", 2);
+            Invoke("RestartGame", 2 * slowMotionFactor);
+            Time.timeScale = slowMotionFactor;
+            Time.fixedDeltaTime = 0.02f * Time.timeScale;
+
         }
     }
 
@@ -52,13 +62,23 @@ public class GameManager : MonoBehaviour
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
-    void Start()
+   private void Start()
     {
         StartGame();
+
+        TotalDistance = (FinishlineTransform.position.z - StartlineTransform.position.z);
+
     }
     // Update is called once per frame
     void Update()
     {
-        
+        DistanceRemaining = Vector3.Distance(ball.transform.position, FinishlineTransform.position);
+
+        if (DistanceRemaining > TotalDistance)
+            DistanceRemaining = TotalDistance;
+
+        if (ball.transform.position.z > FinishlineTransform.transform.position.z)
+            DistanceRemaining = 0;
+        Debug.Log("Remaining Distance is " + DistanceRemaining + " Entire Distance is " + TotalDistance);
     }
 }

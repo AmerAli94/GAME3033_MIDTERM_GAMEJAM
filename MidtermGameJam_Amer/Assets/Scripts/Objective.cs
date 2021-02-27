@@ -8,9 +8,9 @@ public class Objective : MonoBehaviour
     {
         PlayerController ball = other.GetComponent<PlayerController>();
 
-        if (!ball || GameManager.singleton.isEnded)
+        if (!ball || GameManager.singleton.IsEnded)
             return;
-        Debug.Log("Finished Ended");
+        Debug.Log("Finished Game");
         GameManager.singleton.EndGame(true);
     }
 }

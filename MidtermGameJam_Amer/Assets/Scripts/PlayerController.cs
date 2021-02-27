@@ -8,10 +8,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField]  private Rigidbody rb;
     [SerializeField] private float playerBoundaries = 5.0f;
     [SerializeField] private float cameraDistance = 5.0f;
+
+
+    
+
     private Vector2 lastMousePos;
     private void Start()
     {
         gameObject.GetComponent<Rigidbody>();
+
     }
     // Update is called once per frame
     void Update()
@@ -39,7 +44,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (GameManager.singleton.isRunning)
+        if (GameManager.singleton.IsRunning)
         {
             rb.MovePosition(transform.position + Vector3.forward * 5 * Time.fixedDeltaTime);
         }
@@ -66,7 +71,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (GameManager.singleton.isEnded)
+        if (GameManager.singleton.IsEnded)
             return;
 
         if (collision.gameObject.tag == "Obstacle")
