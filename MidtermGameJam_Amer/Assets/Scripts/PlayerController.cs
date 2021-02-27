@@ -47,4 +47,13 @@ public class PlayerController : MonoBehaviour
         }
         transform.position = pos;
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (GameManager.sinleton.isEnded)
+            return;
+
+        if (collision.gameObject.tag == "Obstacle")
+            GameManager.sinleton.EndGame(false);
+    }
 }
