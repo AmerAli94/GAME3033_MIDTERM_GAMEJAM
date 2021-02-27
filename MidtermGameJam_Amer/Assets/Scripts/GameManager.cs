@@ -42,6 +42,10 @@ public class GameManager : MonoBehaviour
             Time.timeScale = slowMotionFactor;
             Time.fixedDeltaTime = 0.02f * Time.timeScale;
         }
+        else
+        {
+            Invoke("RestartGame", 2);
+        }
     }
 
     public void RestartGame()
