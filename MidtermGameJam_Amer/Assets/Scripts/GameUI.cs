@@ -9,7 +9,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] private Image progressBarFill;
 
     private float lastValue = 0;
-
+   
     // Update is called once per frame
     void Update()
     {
@@ -26,4 +26,6 @@ public class GameUI : MonoBehaviour
 
         //Debug.Log(lastValue);
     }
+
+
 }

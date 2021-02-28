@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float thrust = 5.0f;
+    [SerializeField] private float thrust = 150.0f;
     [SerializeField]  private Rigidbody rb;
-    [SerializeField] private float playerBoundaries = 5.0f;
+    [SerializeField] private float wallBoundaries = 5.0f;
     [SerializeField] private float cameraDistance = 5.0f;
 
-
+    private float playerBoundaries = 4.99f;
     
 
     private Vector2 lastMousePos;
@@ -53,11 +53,11 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 pos = transform.position;
 
-        if (transform.position.x < -playerBoundaries)
+        if (transform.position.x < -wallBoundaries)
         {
             pos.x = -playerBoundaries;
         }
-        else if(transform.position.x > playerBoundaries)
+        else if(transform.position.x > wallBoundaries)
         {
             pos.x = playerBoundaries;
         }
